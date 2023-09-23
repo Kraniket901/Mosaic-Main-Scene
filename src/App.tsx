@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { animated } from "react-spring";
 import "./App.css";
 import { io } from "socket.io-client";
