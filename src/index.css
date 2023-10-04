@@ -1,10 +1,4 @@
-body {
-  margin: 0;
-  padding: 0;
-  background-color: black;
-  color: white;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+
 
 input {
   background-color: black;
@@ -34,4 +28,31 @@ label {
   align-items: center;
   justify-content: space-between;
   gap:10px
+}
+
+body {
+	background: linear-gradient(-45deg, #28035A, #e73c7e);
+	background-size: 400% 400%;
+	animation: gradient 5s ease infinite;
+	height: 100vh;
+  font-family: 'sans-serif';
+
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+/* Hide the vertical scrollbar while allowing scrolling */
+body::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
 }

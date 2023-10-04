@@ -12,6 +12,10 @@ const socket = io("https://mosaic-maker.onrender.com", {
 });
 function App() {
   const [queue, setQueue] = useState<any>([]);
+  /** State to check whether to hide the Tool Bar or Not
+   * @default false
+   */
+  const [hide, setHide] = useState(false);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   /** Number of rows in the grid */
   const [numRows, setNumRows] = useState<number>(3);
@@ -202,7 +206,12 @@ function App() {
         gap: "20px",
       }}
     >
-      <div className="grid-container">
+      <div
+        onClick={() => {
+          setHide((prev) => !prev);
+        }}
+        className="grid-container"
+      >
         {Array.from({ length: numRows }, (_, rowIndex) => (
           <div key={rowIndex} className="grid-row">
             {Array.from({ length: numCols }, (_, colIndex) => {
@@ -219,8 +228,8 @@ function App() {
                     minWidth: `${cellWidth}px`,
                     maxWidth: `${cellWidth}px`,
                     maxHeight: `${cellHeight}px`,
-                    backgroundColor: "#000",
-                    border: "0.01px solid #1c1c1c",
+                    backgroundColor: "transparent",
+                    border: "0.01pt solid #fff",
                   }}
                 >
                   {cellData && (
@@ -272,44 +281,53 @@ function App() {
           />
         </div>
       )}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: "20px",
-        }}
-      >
-        <label>
-          Rows:
-          <input type="number" value={numRows} onChange={handleRowChange} />
-        </label>
-        <label>
-          Columns:
-          <input type="number" value={numCols} onChange={handleColChange} />
-        </label>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: "20px",
-        }}
-      >
-        <label>
-          Cell Width (px):
-          <input type="number" value={cellWidth} onChange={handleWidthChange} />
-        </label>
-        <label>
-          Cell Height (px):
-          <input
-            type="number"
-            value={cellHeight}
-            onChange={handleHeightChange}
-          />
-        </label>
-      </div>
+      {!hide && (
+        <>
+          {" "}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "20px",
+            }}
+          >
+            <label>
+              Rows:
+              <input type="number" value={numRows} onChange={handleRowChange} />
+            </label>
+            <label>
+              Columns:
+              <input type="number" value={numCols} onChange={handleColChange} />
+            </label>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "20px",
+            }}
+          >
+            <label>
+              Cell Width (px):
+              <input
+                type="number"
+                value={cellWidth}
+                onChange={handleWidthChange}
+              />
+            </label>
+            <label>
+              Cell Height (px):
+              <input
+                type="number"
+                value={cellHeight}
+                onChange={handleHeightChange}
+              />
+            </label>
+          </div>
+        </>
+      )}
       {/* <button onClick={handleAddImageClick}>Add Random Image</button> */}
     </div>
   );

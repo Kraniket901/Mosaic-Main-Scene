@@ -13,7 +13,6 @@ function QueueSystem() {
     }
   };
   useEffect(() => {
-    // automatically add some data to the queue
     const interval = setInterval(() => {
         setQueue([...queue, Math.random()]);
     }, 100);
