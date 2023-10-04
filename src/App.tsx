@@ -216,7 +216,7 @@ function App() {
           <div key={rowIndex} className="grid-row">
             {Array.from({ length: numCols }, (_, colIndex) => {
               const cellData = gridData.find(
-                (data) => data.row === rowIndex + 1 && data.col === colIndex
+                (data) => data.row === rowIndex + 1 && data.col - 1 === colIndex
               );
 
               return (
