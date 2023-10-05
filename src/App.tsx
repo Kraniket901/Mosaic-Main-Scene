@@ -7,7 +7,7 @@ import axios from "axios";
  * Represents the main App component.
  * @component
  */
-const socket = io("https://mosaic-maker.onrender.com", {
+const socket = io("http://gokapture-digital-mosaic-backend-env.eba-edyt79ku.ap-south-1.elasticbeanstalk.com", {
   transports: ["websocket", "polling", "flashsocket"],
 });
 function App() {
@@ -41,7 +41,7 @@ function App() {
 
   // const [setIsAddingImage] = useState<boolean>(false);
   useEffect(() => {
-    axios.get("https://mosaic-maker.onrender.com/cache-images").then((e) => {
+    axios.get("http://gokapture-digital-mosaic-backend-env.eba-edyt79ku.ap-south-1.elasticbeanstalk.com/cache-images").then((e) => {
       // setGridData()
       const data = e.data.map((e: any) => {
         return {
