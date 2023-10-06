@@ -7,7 +7,7 @@ import axios from "axios";
  * Represents the main App component.
  * @component
  */
-const socket = io("https://3.7.248.255.nip.io/", {
+const socket = io("https://65.0.5.193.nip.io", {
   transports: ["websocket", "polling", "flashsocket"],
 });
 function App() {
