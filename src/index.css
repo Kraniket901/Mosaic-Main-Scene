@@ -31,9 +31,13 @@ label {
 }
 
 body {
-	background: linear-gradient(-45deg, #28035A, #e73c7e);
+	background: linear-gradient(128deg, #fe811a, #15151a);
+  /*
+    blur the background image
+  */
+  backdrop-filter: blur(100px);
 	background-size: 400% 400%;
-	animation: gradient 5s ease infinite;
+	animation: gradient 20s ease infinite;
 	height: 100vh;
   font-family: 'sans-serif';
 
