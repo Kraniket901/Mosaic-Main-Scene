@@ -7,7 +7,7 @@ import axios from "axios";
  * Represents the main App component.
  * @component
  */
-const socket = io("http://localhost:3000/", {
+const socket = io("https://65.0.5.193.nip.io/", {
   transports: ["websocket", "polling", "flashsocket"],
 });
 function App() {
@@ -41,7 +41,7 @@ function App() {
 
   // const [setIsAddingImage] = useState<boolean>(false);
   useEffect(() => {
-    axios.get("http://localhost:3000/cache-images").then((e) => {
+    axios.get("https://65.0.5.193.nip.io/cache-images").then((e) => {
       // setGridData()
       const data = e.data.map((e: any) => {
         return {
