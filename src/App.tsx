@@ -7,7 +7,7 @@ import axios from "axios";
  * Represents the main App component.
  * @component
  */
-const socket = io("https://3.108.238.222.nip.io/", {
+const socket = io("https://mosaic-api.gokapturehub.com/", {
   transports: ["websocket", "polling", "flashsocket"],
 });
 function App() {
@@ -41,8 +41,9 @@ function App() {
 
   // const [setIsAddingImage] = useState<boolean>(false);
   useEffect(() => {
-    axios.get("https://3.108.238.222.nip.io/cache-images").then((e) => {
+    axios.get("https://mosaic-api.gokapturehub.com/cache-images").then((e) => {
       // setGridData()
+      console.log(e)
       const data = e.data.map((e: any) => {
         return {
           imageId: new Date(),
@@ -122,13 +123,15 @@ function App() {
    * Adds a random image to the grid with zoom effect.
    */
   const addImageToTheGrid = (data: any) => {
+    console.log(data.image)
     const randomImageId = Math.floor(Math.random() * 1000);
     // Set the flag to indicate that an image is being added
     // setIsAddingImage(true);
-
+    const blob = new Blob([data.image], { type: "image/png" });
+    const url = URL.createObjectURL(blob);
     // Show the image in full-screen for 3 seconds
     setFullScreenImage({
-      url: data.url,
+      url,
       imageId: randomImageId,
     });
 
@@ -167,11 +170,12 @@ function App() {
   useEffect(() => {
     // Listen for 'message' event
     socket.on("image", (data) => {
-      const blob = new Blob([data.image], { type: "image/jpeg" });
+      // console.log(data)
+      const blob = new Blob([data.result.image], { type: "image/jpeg" });
       const url = URL.createObjectURL(blob);
       setQueue((prevQueue: any) => [
         ...prevQueue,
-        { url, coords: data.coords },
+        { url, coords: data.result.coords, image: data.image },
       ]);
     });
 
@@ -185,7 +189,6 @@ function App() {
     if (queue.length > 0 && !isPlaying) {
       setIsPlaying(true);
       const data = queue.shift();
-      console.log(data);
       addImageToTheGrid(data);
       setTimeout(() => {
         setIsPlaying(false);
