@@ -2,7 +2,7 @@ import { useCallback, useState, useEffect } from "react";
 import { animated } from "react-spring";
 import "./App.css";
 import { io } from "socket.io-client";
-import axios from "axios";
+// import axios from "axios";
 /**
  * Represents the main App component.
  * @component
