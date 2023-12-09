@@ -232,7 +232,7 @@ function App() {
                     maxWidth: `${cellWidth}px`,
                     maxHeight: `${cellHeight}px`,
                     backgroundColor: "transparent",
-                    border: "0.01pt solid #fff",
+                    border: "0.01pt solid #000",
                   }}
                 >
                   {cellData && (
