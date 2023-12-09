@@ -43,13 +43,13 @@ function App() {
   useEffect(() => {
     axios.get("https://mosaic-api.gokapturehub.com/cache-images").then((e) => {
       // setGridData()
-      console.log(e)
+      console.log(e);
       const data = e.data.map((e: any) => {
         return {
           imageId: new Date(),
           row: e.coords[0],
           col: e.coords[1],
-          url: e.url,
+          url: e.url[0],
         };
       });
 
@@ -123,12 +123,23 @@ function App() {
    * Adds a random image to the grid with zoom effect.
    */
   const addImageToTheGrid = (data: any) => {
-    console.log(data.image)
+    // console.log(data.image);
     const randomImageId = Math.floor(Math.random() * 1000);
     // Set the flag to indicate that an image is being added
     // setIsAddingImage(true);
-    const blob = new Blob([data.image], { type: "image/png" });
+    const binaryString = atob(data.image);
+
+    // Create an ArrayBuffer to hold the binary data
+    const arrayBuffer = new ArrayBuffer(binaryString.length);
+    const uint8Array = new Uint8Array(arrayBuffer);
+
+    // Fill the ArrayBuffer with the binary data
+    for (let i = 0; i < binaryString.length; i++) {
+      uint8Array[i] = binaryString.charCodeAt(i);
+    }
+    const blob = new Blob([uint8Array], { type: "image/png" });
     const url = URL.createObjectURL(blob);
+    console.log(url);
     // Show the image in full-screen for 3 seconds
     setFullScreenImage({
       url,
@@ -170,7 +181,7 @@ function App() {
   useEffect(() => {
     // Listen for 'message' event
     socket.on("image", (data) => {
-      // console.log(data)
+      console.log(data);
       const blob = new Blob([data.result.image], { type: "image/jpeg" });
       const url = URL.createObjectURL(blob);
       setQueue((prevQueue: any) => [
