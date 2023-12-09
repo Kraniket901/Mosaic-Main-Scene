@@ -31,7 +31,7 @@ label {
 }
 
 body {
-	background: linear-gradient(128deg, #fe811a, #15151a);
+	background-color: white;
   /*
     blur the background image
   */
