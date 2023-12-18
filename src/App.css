@@ -18,3 +18,16 @@
   justify-content: center;
   align-items: center;
 }
+
+.zoom-image {
+  /* Your existing styles for zoom-image */
+  /* Ensure to set a fixed width and height */
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.5s ease-in-out; /* Transition effect for smooth reveal */
+  opacity: 0; /* Initially hide the image */
+}
+
+.reveal-image {
+  opacity: 1; /* Reveal the image */
+}
