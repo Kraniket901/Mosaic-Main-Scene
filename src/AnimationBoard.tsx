@@ -5,7 +5,7 @@ const socket = io("https://mosaic-api.gokapturehub.com/", {
   transports: ["websocket", "polling", "flashsocket"],
 });
 const page = () => {
-  const [images, setImages] = useState<any>([]); 
+  const [images, setImages] = useState<any>([]);
   const [showingImages, setShowingImages] = useState<any>([]);
   useEffect(() => {
     axios.get("https://mosaic-api.gokapturehub.com/cache-images").then((e) => {
@@ -21,7 +21,7 @@ const page = () => {
 
   useEffect(() => {
     const generateImages = () => {
-      const newImages:any = [];
+      const newImages: any = [];
       for (let i = 0; i < images.length; i++) {
         const delay = i * 3; // Adjust the delay factor as needed
         newImages.push({
@@ -39,7 +39,17 @@ const page = () => {
   useEffect(() => {
     socket.on("image", (data) => {
       console.log(data);
-      const blob = new Blob([data.image], { type: "image/jpeg" });
+      const binaryString = atob(data.image);
+
+      // Create an ArrayBuffer to hold the binary data
+      const arrayBuffer = new ArrayBuffer(binaryString.length);
+      const uint8Array = new Uint8Array(arrayBuffer);
+
+      // Fill the ArrayBuffer with the binary data
+      for (let i = 0; i < binaryString.length; i++) {
+        uint8Array[i] = binaryString.charCodeAt(i);
+      }
+      const blob = new Blob([uint8Array], { type: "image/png" });
       const url = URL.createObjectURL(blob);
       // setQueue((prevQueue: any) => [
       //   ...prevQueue,
@@ -47,7 +57,9 @@ const page = () => {
       // ]);
       setImages((prevImages: any) => [
         ...prevImages,
-        { url, coords: data.result.coords, image: data.image },
+        {
+          url,
+        },
       ]);
     });
 
