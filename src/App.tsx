@@ -266,7 +266,7 @@ function App() {
               );
 
               const shouldShow =
-                cellData && loadingIndex >= 0 && gridData.indexOf(cellData) <= loadingIndex;
+                cellData && loadingIndex >= 1 && gridData.indexOf(cellData) <= loadingIndex;
 
               return (
                 <div
