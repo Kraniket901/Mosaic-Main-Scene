@@ -39,7 +39,7 @@ const page = () => {
   useEffect(() => {
     socket.on("image", (data) => {
       console.log(data);
-      const blob = new Blob([data.result.image], { type: "image/jpeg" });
+      const blob = new Blob([data.image], { type: "image/jpeg" });
       const url = URL.createObjectURL(blob);
       // setQueue((prevQueue: any) => [
       //   ...prevQueue,
