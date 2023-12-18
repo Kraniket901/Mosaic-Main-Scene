@@ -30,7 +30,7 @@ function App() {
   /** Height of each grid cell (in pixels) */
   const [cellHeight, setCellHeight] = useState<number>(100);
 
-  const [loadingImages, setLoadingImages] = useState<boolean>(false);
+  // const [loadingImages, setLoadingImages] = useState<boolean>(false);
 
   /** Data representing images in the grid */
   const [gridData, setGridData] = useState<
