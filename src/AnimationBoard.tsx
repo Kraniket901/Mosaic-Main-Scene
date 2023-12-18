@@ -1,6 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-
+import io from "socket.io-client";
+const socket = io("https://mosaic-api.gokapturehub.com/", {
+  transports: ["websocket", "polling", "flashsocket"],
+});
 const page = () => {
   const [images, setImages] = useState<any>([]); 
   const [showingImages, setShowingImages] = useState<any>([]);
@@ -33,6 +36,25 @@ const page = () => {
     generateImages();
   }, [images]);
 
+  useEffect(() => {
+    socket.on("image", (data) => {
+      console.log(data);
+      const blob = new Blob([data.result.image], { type: "image/jpeg" });
+      const url = URL.createObjectURL(blob);
+      // setQueue((prevQueue: any) => [
+      //   ...prevQueue,
+      //   { url, coords: data.result.coords, image: data.image },
+      // ]);
+      setImages((prevImages: any) => [
+        ...prevImages,
+        { url, coords: data.result.coords, image: data.image },
+      ]);
+    });
+
+    return () => {
+      socket.off("image");
+    };
+  }, []);
   return (
     <main className="container-image">
       <ImageFlow imageArr={showingImages} direction="top-left" />
