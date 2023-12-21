@@ -9,6 +9,7 @@ import axios from "axios";
  * @component
  */
 const socket = io("https://mosaic-api.gokapturehub.com/", {
+// const socket = io("http://localhost:3000/", {
   transports: ["websocket", "polling", "flashsocket"],
 });
 function Mosaic() {
@@ -45,6 +46,7 @@ function Mosaic() {
   // const [setIsAddingImage] = useState<boolean>(false);
   useEffect(() => {
     axios.get("https://mosaic-api.gokapturehub.com/cache-images").then((e) => {
+    // axios.get("http://localhost:3000/cache-images").then((e) => {
       // setGridData()
       const data = e.data.map((e: any) => {
         return {
@@ -277,7 +279,7 @@ function Mosaic() {
                     maxWidth: `${cellWidth}px`,
                     maxHeight: `${cellHeight}px`,
                     backgroundColor: "transparent",
-                    border: "0.01pt solid #000",
+                    border: "1px solid #15151a",
                   }}
                 >
                   {cellData && shouldShow && (
