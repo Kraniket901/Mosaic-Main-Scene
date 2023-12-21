@@ -4,10 +4,10 @@
 images=("image1.png" "image2.png" "image3.png")
 
 # Number of times to send the image
-iterations=576  # Change this value to the desired number of iterations
+iterations=192  # Change this value to the desired number of iterations
 
 # API endpoint
-endpoint="http://localhost:3000/process-my-image"
+endpoint="https://mosaic-api.gokapturehub.com/process-my-image"
 
 # Get the total number of images in the array
 total_images=${#images[@]}

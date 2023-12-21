@@ -279,7 +279,7 @@ function Mosaic() {
                     maxWidth: `${cellWidth}px`,
                     maxHeight: `${cellHeight}px`,
                     backgroundColor: "transparent",
-                    border: "1px solid #15151a",
+                    // border: "1px solid #15151a",
                   }}
                 >
                   {cellData && shouldShow && (
