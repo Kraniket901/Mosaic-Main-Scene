@@ -1,35 +1,69 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import io from "socket.io-client";
+
+interface ImageData {
+  src: string;
+  alt: string;
+  delay?: string;
+}
+
+interface SocketImageData {
+  image: string;
+  result: {
+    coords: string;
+  };
+}
+
 const socket = io("https://mosaic-api.gokapturehub.com/", {
   transports: ["websocket", "polling", "flashsocket"],
 });
-const page = () => {
-  const [images, setImages] = useState<any>([]);
-  const [showingImages, setShowingImages] = useState<any>([]);
-  useEffect(() => {
-    axios.get("https://mosaic-api.gokapturehub.com/cache-images").then((e) => {
-      // setGridData()
-      const data = e.data.map((e: any) => {
-        return {
-          url: e.url[1],
-        };
-      });
+
+interface ImageFlowProps {
+  direction: string;
+  image: ImageData[];
+}
+
+const ImageFlow = ({ direction, image }: ImageFlowProps) => {
+  return (
+    <div className="section-with-images">
+      {image.map((img: ImageData, index: number) => (
+        <img
+          data-pos={direction}
+          key={index}
+          src={img.src}
+          alt={img.alt}
+          style={{ animationDelay: img.delay }}
+        />
+      ))}
+    </div>
+  );
+};
+
+const Page = () => {
+  const [images, setImages] = useState<ImageData[]>([]);
+  const [showingImages, setShowingImages] = useState<ImageData[]>([]);
+
+  const fetchImages = useCallback(() => {
+    axios.get("https://mosaic-api.gokapturehub.com/cache-images").then((response) => {
+      const data: ImageData[] = response.data.map((item: any) => ({
+        src: item.url[1],
+        alt: item.url[1],
+      }));
       setImages(data);
     });
   }, []);
 
   useEffect(() => {
+    fetchImages();
+  }, [fetchImages]);
+
+  useEffect(() => {
     const generateImages = () => {
-      const newImages: any = [];
-      for (let i = 0; i < images.length; i++) {
-        const delay = i * 3; // Adjust the delay factor as needed
-        newImages.push({
-          src: images[i].url, // Replace with the actual path
-          alt: images[i].url,
-          delay: `${delay}s`,
-        });
-      }
+      const newImages: ImageData[] = images.map((img, index) => ({
+        ...img,
+        delay: `${index * 3}s`,
+      }));
       setShowingImages(newImages);
     };
 
@@ -37,65 +71,44 @@ const page = () => {
   }, [images]);
 
   useEffect(() => {
-    socket.on("image", (data) => {
-      console.log(data);
+    const handleIncomingImage = (data: SocketImageData) => {
       const binaryString = atob(data.image);
-
-      // Create an ArrayBuffer to hold the binary data
       const arrayBuffer = new ArrayBuffer(binaryString.length);
       const uint8Array = new Uint8Array(arrayBuffer);
 
-      // Fill the ArrayBuffer with the binary data
       for (let i = 0; i < binaryString.length; i++) {
         uint8Array[i] = binaryString.charCodeAt(i);
       }
+
       const blob = new Blob([uint8Array], { type: "image/png" });
       const url = URL.createObjectURL(blob);
-      // setQueue((prevQueue: any) => [
-      //   ...prevQueue,
-      //   { url, coords: data.result.coords, image: data.image },
-      // ]);
-      setImages((prevImages: any) => [
+
+      setImages((prevImages) => [
         ...prevImages,
         {
-          url,
+          src: url,
+          alt: data.image,
         },
       ]);
-    });
+    };
+
+    socket.on("image", handleIncomingImage);
 
     return () => {
-      socket.off("image");
+      socket.off("image", handleIncomingImage);
     };
   }, []);
+
   return (
     <main className="container-image">
-      <ImageFlow imageArr={showingImages} direction="top-left" />
-      <ImageFlow imageArr={showingImages} direction="top-middle-left" />
-      <ImageFlow imageArr={showingImages} direction="top-middle-right" />
-      <ImageFlow imageArr={showingImages} direction="top-right" />
-      <ImageFlow imageArr={showingImages} direction="bottom-left" />
-      <ImageFlow imageArr={showingImages} direction="bottom-middle-left" />
-      <ImageFlow imageArr={showingImages} direction="bottom-middle-right" />
-      <ImageFlow imageArr={showingImages} direction="bottom-right" />
+      <ImageFlow image={showingImages} direction="top-left" />
+      <ImageFlow image={showingImages} direction="top-right" />
+      <ImageFlow image={showingImages} direction="bottom-left" />
+      <ImageFlow image={showingImages} direction="bottom-right" />
+
+      {/* Add other ImageFlow components here for different directions */}
     </main>
   );
 };
 
-export default page;
-
-const ImageFlow = (props: any) => {
-  const { direction, imageArr } = props;
-  return (
-    <div className="section-with-images">
-      {imageArr.map((image: any, index: any) => (
-        <img
-          data-pos={direction}
-          key={index}
-          src={image.src}
-          alt={image.alt}
-          style={{ animationDelay: image.delay }}
-        />
-      ))}
-    </div>
-  );
-};
+export default Page;
