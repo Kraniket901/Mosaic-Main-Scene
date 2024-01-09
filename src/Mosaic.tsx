@@ -108,7 +108,7 @@ function Mosaic() {
 
     const intervalId = setInterval(() => {
       // console.log("after 30s" , lastLength, currentLength)
-      if (lastLength == currentLength) {
+      if (lastLength == currentLength && lastLength !== 512) {
         setshowScroller(true)
       }
       checkimage()
@@ -117,6 +117,14 @@ function Mosaic() {
     return () => clearInterval(intervalId);
   }, [])
 
+  useEffect(() => {
+    if (showScroller) {
+      document.body.style.overflow = 'hidden'
+    }else{
+      document.body.style.overflow = 'auto'
+    }
+  }, [showScroller])
+  
 
   // const [setIsAddingImage] = useState<boolean>(false);
   // useEffect(() => {
@@ -335,6 +343,7 @@ function Mosaic() {
         height: "100vh",
         width: "100vw",
         gap: "20px",
+        // {showScroller == true }
       }}
     >
       <div
