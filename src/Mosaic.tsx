@@ -173,24 +173,24 @@ function Mosaic() {
       }
     }, 3000);
   };
-  const [loadingIndex, setLoadingIndex] = useState<number>(0);
+  // const [loadingIndex, setLoadingIndex] = useState<number>(0);
 
   const loadImagesSequentially = () => {
-    const delayBetweenImages = 50; // Time delay between each image in milliseconds
+    // const delayBetweenImages = 50; // Time delay between each image in milliseconds
 
-    setLoadingIndex(0); // Reset the loading index
+    // setLoadingIndex(0); // Reset the loading index
 
-    const intervalId = setInterval(() => {
-      setLoadingIndex((prevIndex) => {
-        const nextIndex = prevIndex + 1;
-        if (nextIndex < gridData.length) {
-          return nextIndex;
-        } else {
-          clearInterval(intervalId); // Stop the interval when all images are displayed
-          return prevIndex;
-        }
-      });
-    }, delayBetweenImages);
+    // const intervalId = setInterval(() => {
+      // setLoadingIndex((prevIndex) => {
+      //   const nextIndex = prevIndex + 1;
+      //   if (nextIndex < gridData.length) {
+      //     return nextIndex;
+      //   } else {
+      //     clearInterval(intervalId); // Stop the interval when all images are displayed
+      //     return prevIndex;
+      //   }
+      // });
+    // }, delayBetweenImages);
   };
 
   const handleKeyPress = useCallback(
