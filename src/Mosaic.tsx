@@ -3,17 +3,23 @@ import { animated } from "react-spring";
 import "./App.css";
 import { io } from "socket.io-client";
 import axios from "axios";
+import Scroller from "./lib/Scroller";
 // import axios from "axios";
 /**
  * Represents the main Mosaic component.
  * @component
  */
 const socket = io("https://mosaic-api.gokapturehub.com/", {
-// const socket = io("http://localhost:3000/", {
+  // const socket = io("http://localhost:3000/", {
   transports: ["websocket", "polling", "flashsocket"],
 });
 function Mosaic() {
   const [queue, setQueue] = useState<any>([]);
+  const [lastLength, setLastLength] = useState(0)
+  const [currentLength, setcurrentLength] = useState(0)
+  const [imageScrollerque, setimageScrollerque] = useState<any>([]);
+  const [showScroller, setshowScroller] = useState<any>(false);
+
   /** State to check whether to hide the Tool Bar or Not
    * @default false
    */
@@ -43,11 +49,19 @@ function Mosaic() {
     }>
   >([]);
 
-  // const [setIsAddingImage] = useState<boolean>(false);
+
+  // useefect for check new images
+
+  // check for new image if there is no image then slider else 
   useEffect(() => {
     axios.get("https://mosaic-api.gokapturehub.com/cache-images").then((e) => {
-    // axios.get("http://localhost:3000/cache-images").then((e) => {
-      // setGridData()
+      if (e.data.length !== lastLength) {
+        setLastLength(e?.data.length)
+      }
+      let imageArray = e.data.map((e: any) => {
+        return e.url[1]
+      })
+      setcurrentLength(e?.data.length)
       const data = e.data.map((e: any) => {
         return {
           imageId: new Date(),
@@ -56,10 +70,78 @@ function Mosaic() {
           url: e.url[0],
         };
       });
-
+      setimageScrollerque(() => [
+        ...imageArray
+      ].reverse());
       setGridData(data);
     });
-  }, []);
+  }, [])
+
+  // after 30s 
+  useEffect(() => {
+    const checkimage = async () => {
+      axios.get("https://mosaic-api.gokapturehub.com/cache-images").then((e) => {
+        if (e.data.length !== lastLength) {
+          setLastLength(e?.data.length)
+        }
+        setcurrentLength(e?.data.length)
+        let imageArray = e.data.map((e: any) => {
+          return e.url[1]
+        })
+        const data = e.data.map((e: any) => {
+          return {
+            imageId: new Date(),
+            row: e.coords[0],
+            col: e.coords[1],
+            url: e.url[0],
+          };
+        });
+        // console.log("after map image arr" ,...imageArray)
+        setimageScrollerque(() => [
+          ...imageArray
+        ].reverse());
+        // console.log( "after map data ", imageScrollerque)
+        setGridData(data);
+      });
+
+    }
+
+    const intervalId = setInterval(() => {
+      // console.log("after 30s" , lastLength, currentLength)
+      if (lastLength == currentLength) {
+        setshowScroller(true)
+      }
+      checkimage()
+    }, 60000);
+
+    return () => clearInterval(intervalId);
+  }, [])
+
+
+  // const [setIsAddingImage] = useState<boolean>(false);
+  // useEffect(() => {
+  //   axios.get("https://mosaic-api.gokapturehub.com/cache-images").then((e) => {
+  //     // axios.get("http://localhost:3000/cache-images").then((e) => {
+  //     // setGridData()
+  //     setLastLength(e?.data.length)
+  //     const data = e.data.map((e: any) => {
+  //       return {
+  //         imageId: new Date(),
+  //         row: e.coords[0],
+  //         col: e.coords[1],
+  //         url: e.url[0],
+  //       };
+  //     });
+  //     console.log(data)
+  //     console.log(data.url)
+  //     // setimageScrollerque((prevQueue: any) => [
+  //     //   ...prevQueue,
+  //     //   { url:data.url },
+  //     // ]);
+  //     // setshowScroller(true)
+  //     setGridData(data);
+  //   });
+  // }, []);
 
   /** State to manage the full-screen display of the image */
   const [fullScreenImage, setFullScreenImage] = useState<{
@@ -145,6 +227,7 @@ function Mosaic() {
     const url = URL.createObjectURL(blob);
     console.log(url);
     // Show the image in full-screen for 3 seconds
+    setshowScroller(false)
     setFullScreenImage({
       url,
       imageId: randomImageId,
@@ -153,6 +236,7 @@ function Mosaic() {
     // After 5 seconds, add it to the grid and reset the flag
     setTimeout(() => {
       setFullScreenImage({ url: null, imageId: null });
+      // setshowScroller(true)
       setGridData((prevGridData) => [
         ...prevGridData,
         {
@@ -181,15 +265,15 @@ function Mosaic() {
     // setLoadingIndex(0); // Reset the loading index
 
     // const intervalId = setInterval(() => {
-      // setLoadingIndex((prevIndex) => {
-      //   const nextIndex = prevIndex + 1;
-      //   if (nextIndex < gridData.length) {
-      //     return nextIndex;
-      //   } else {
-      //     clearInterval(intervalId); // Stop the interval when all images are displayed
-      //     return prevIndex;
-      //   }
-      // });
+    // setLoadingIndex((prevIndex) => {
+    //   const nextIndex = prevIndex + 1;
+    //   if (nextIndex < gridData.length) {
+    //     return nextIndex;
+    //   } else {
+    //     clearInterval(intervalId); // Stop the interval when all images are displayed
+    //     return prevIndex;
+    //   }
+    // });
     // }, delayBetweenImages);
   };
 
@@ -305,6 +389,7 @@ function Mosaic() {
           </div>
         ))}
       </div>
+      {showScroller && <Scroller imageArr={[...imageScrollerque]} />}
       {fullScreenImage.url && (
         <div
           style={{
