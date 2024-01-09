@@ -266,8 +266,7 @@ function Mosaic() {
                 (data) => data.row === rowIndex + 1 && data.col - 1 === colIndex
               );
 
-              const shouldShow =
-                cellData && loadingIndex >= 1 && gridData.indexOf(cellData) <= loadingIndex;
+              const shouldShow = true
 
               return (
                 <div
@@ -279,7 +278,7 @@ function Mosaic() {
                     maxWidth: `${cellWidth}px`,
                     maxHeight: `${cellHeight}px`,
                     backgroundColor: "transparent",
-                    // border: "1px solid #15151a",
+                    border: "1px solid #15151a",
                   }}
                 >
                   {cellData && shouldShow && (

@@ -15,7 +15,7 @@ const App = () => {
   return (
     <div tabIndex={0} onKeyDown={handleKeyPress}>
       {
-        show ? <Mosaic /> : <AnimationBoard/>
+        true ? <Mosaic /> : <AnimationBoard/>
       }
     </div>
   );
