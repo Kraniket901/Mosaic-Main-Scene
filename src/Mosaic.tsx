@@ -329,26 +329,12 @@ function Mosaic() {
       }, 3000);
     }
   }, [queue, isPlaying]);
-  const [addBorder, setAddBorder] = useState<boolean>(false);
-  const [addBackground, setAddBackground] = useState<string>('white');
-  const handleBorder = () => {
-    setAddBorder((prev) => !prev);
-  }
-  const handleBackground = () => {
-    setAddBackground((prev) => {
-      if (prev === 'white') {
-        return 'black'
-      } else {
-        return 'white'
-      }
-    });
-  }
+
   return (
     <div
       tabIndex={0}
       onKeyDown={handleKeyPress}
       style={{
-        backgroundColor: addBackground,
         //make the grid container responsive and center at the screen
         display: "flex",
         justifyContent: "center",
@@ -385,7 +371,7 @@ function Mosaic() {
                     maxWidth: `${cellWidth}px`,
                     maxHeight: `${cellHeight}px`,
                     backgroundColor: "transparent",
-                    border: addBorder ? "0.5px solid #15151a" : "none",
+                    // border: "1px solid #15151a",
                   }}
                 >
                   {cellData && shouldShow && (
@@ -484,9 +470,6 @@ function Mosaic() {
                 onChange={handleHeightChange}
               />
             </label>
-
-            <button onClick={handleBorder}> {addBorder ? "Remove Border" : "Add Border"} Border</button>
-            <button onClick={handleBackground}> {addBackground === 'white' ? "Black" : "White"} Background</button>
           </div>
         </>
       )}
