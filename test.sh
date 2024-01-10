@@ -4,7 +4,7 @@
 images=("image1.png" "image2.png" "image3.png")
 
 # Number of times to send the image
-iterations=192  # Change this value to the desired number of iterations
+iterations=500  # Change this value to the desired number of iterations
 
 # API endpoint
 endpoint="https://mosaic-api.gokapturehub.com/process-my-image"
