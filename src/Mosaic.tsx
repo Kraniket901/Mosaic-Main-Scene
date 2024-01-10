@@ -23,19 +23,19 @@ function Mosaic() {
   /** State to check whether to hide the Tool Bar or Not
    * @default false
    */
-  const [hide, setHide] = useState(false);
+  const [hide, setHide] = useState(true);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   /** Number of rows in the grid */
-  const [numRows, setNumRows] = useState<number>(3);
+  const [numRows, setNumRows] = useState<number>(19);
 
   /** Number of columns in the grid */
-  const [numCols, setNumCols] = useState<number>(3);
+  const [numCols, setNumCols] = useState<number>(28);
 
   /** Width of each grid cell (in pixels) */
-  const [cellWidth, setCellWidth] = useState<number>(100);
+  const [cellWidth, setCellWidth] = useState<number>(69);
 
   /** Height of each grid cell (in pixels) */
-  const [cellHeight, setCellHeight] = useState<number>(100);
+  const [cellHeight, setCellHeight] = useState<number>(57);
 
   // const [loadingImages, setLoadingImages] = useState<boolean>(false);
 
