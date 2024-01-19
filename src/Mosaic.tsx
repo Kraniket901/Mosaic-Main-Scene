@@ -23,7 +23,7 @@ function Mosaic() {
   /** State to check whether to hide the Tool Bar or Not
    * @default false
    */
-  const [hide] = useState(false);
+  const [hide] = useState(true);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   /** Number of rows in the grid */
   const [numRows, setNumRows] = useState<number>(10);
