@@ -26,10 +26,10 @@ function Mosaic() {
   const [hide, setHide] = useState(true);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   /** Number of rows in the grid */
-  const [numRows, setNumRows] = useState<number>(19);
+  const [numRows, setNumRows] = useState<number>(10);
 
   /** Number of columns in the grid */
-  const [numCols, setNumCols] = useState<number>(28);
+  const [numCols, setNumCols] = useState<number>(18);
 
   /** Width of each grid cell (in pixels) */
   const [cellWidth, setCellWidth] = useState<number>(69);
@@ -233,7 +233,6 @@ function Mosaic() {
     }
     const blob = new Blob([uint8Array], { type: "image/png" });
     const url = URL.createObjectURL(blob);
-    console.log(url);
     // Show the image in full-screen for 3 seconds
     setshowScroller(false)
     setFullScreenImage({
@@ -371,7 +370,7 @@ function Mosaic() {
                     maxWidth: `${cellWidth}px`,
                     maxHeight: `${cellHeight}px`,
                     backgroundColor: "transparent",
-                    // border: "1px solid #15151a",
+                    border: "1px solid #15151a",
                   }}
                 >
                   {cellData && shouldShow && (
