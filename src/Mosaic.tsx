@@ -10,7 +10,7 @@ import Scroller from "./lib/Scroller";
  * @component
  */
 const socket = io("https://mosaic-api.gokapturehub.com/", {
-  // const socket = io("http://localhost:3000/", {
+  // const socket = io("https://mosaic-api.gokapturehub.com/", {
   transports: ["websocket", "polling", "flashsocket"],
 });
 function Mosaic() {
@@ -32,7 +32,7 @@ function Mosaic() {
   const [numCols, setNumCols] = useState<number>(18);
 
   /** Width of each grid cell (in pixels) */
-  const [cellWidth, setCellWidth] = useState<number>(106);
+  const [cellWidth, setCellWidth] = useState<number>(108);
 
   /** Height of each grid cell (in pixels) */
   const [cellHeight, setCellHeight] = useState<number>(108);
@@ -55,6 +55,7 @@ function Mosaic() {
   // check for new image if there is no image then slider else 
   useEffect(() => {
     axios.get("https://mosaic-api.gokapturehub.com/cache-images").then((e) => {
+      console.log(e.data)
       if (e.data.length !== lastLength) {
         setLastLength(e?.data.length)
       }
@@ -129,7 +130,7 @@ function Mosaic() {
   // const [setIsAddingImage] = useState<boolean>(false);
   // useEffect(() => {
   //   axios.get("https://mosaic-api.gokapturehub.com/cache-images").then((e) => {
-  //     // axios.get("http://localhost:3000/cache-images").then((e) => {
+  //     // axios.get("https://mosaic-api.gokapturehub.com/cache-images").then((e) => {
   //     // setGridData()
   //     setLastLength(e?.data.length)
   //     const data = e.data.map((e: any) => {
