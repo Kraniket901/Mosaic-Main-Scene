@@ -110,7 +110,7 @@ function Mosaic() {
     const intervalId = setInterval(() => {
       // console.log("after 30s" , lastLength, currentLength)
       if (lastLength == currentLength && lastLength !== 180) {
-        setshowScroller(true)
+        // setshowScroller(true)
       }
       checkimage()
     }, 60000);
