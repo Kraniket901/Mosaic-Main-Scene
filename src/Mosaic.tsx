@@ -9,8 +9,8 @@ import Scroller from "./lib/Scroller";
  * Represents the main Mosaic component.
  * @component
  */
-const socket = io("http://localhost:3000/", {
-  // const socket = io("http://localhost:3000/", {
+const socket = io("https://mosaic-api.gokapturehub.com/", {
+  // const socket = io("https://mosaic-api.gokapturehub.com/", {
   transports: ["websocket", "polling", "flashsocket"],
 });
 function Mosaic() {
@@ -26,10 +26,10 @@ function Mosaic() {
   const [hide] = useState(true);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   /** Number of rows in the grid */
-  const [numRows, setNumRows] = useState<number>(19);
+  const [numRows] = useState<number>(19);
 
   /** Number of columns in the grid */
-  const [numCols, setNumCols] = useState<number>(34);
+  const [numCols] = useState<number>(34);
 
   /** Width of each grid cell (in pixels) */
   const [cellWidth, setCellWidth] = useState<number>(54);
@@ -54,7 +54,7 @@ function Mosaic() {
 
   // check for new image if there is no image then slider else 
   useEffect(() => {
-    axios.get("http://localhost:3000/cache-images").then((e) => {
+    axios.get("https://mosaic-api.gokapturehub.com/cache-images").then((e) => {
       console.log(e.data)
       if (e.data.length !== lastLength) {
         setLastLength(e?.data.length)
@@ -81,7 +81,7 @@ function Mosaic() {
   // after 30s 
   useEffect(() => {
     const checkimage = async () => {
-      axios.get("http://localhost:3000/cache-images").then((e) => {
+      axios.get("https://mosaic-api.gokapturehub.com/cache-images").then((e) => {
         if (e.data.length !== lastLength) {
           setLastLength(e?.data.length)
         }
@@ -129,8 +129,8 @@ function Mosaic() {
 
   // const [setIsAddingImage] = useState<boolean>(false);
   // useEffect(() => {
-  //   axios.get("http://localhost:3000/cache-images").then((e) => {
-  //     // axios.get("http://localhost:3000/cache-images").then((e) => {
+  //   axios.get("https://mosaic-api.gokapturehub.com/cache-images").then((e) => {
+  //     // axios.get("https://mosaic-api.gokapturehub.com/cache-images").then((e) => {
   //     // setGridData()
   //     setLastLength(e?.data.length)
   //     const data = e.data.map((e: any) => {
@@ -163,9 +163,9 @@ function Mosaic() {
    * @param {React.ChangeEvent<HTMLInputElement>} e - The change event.
    */
   const handleRowChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setNumRows(+e.target.value);
-      localStorage.setItem("numRows", e.target.value);
+    () => {
+      // setNumRows(+e.target.value);
+      // localStorage.setItem("numRows", e.target.value);
     },
     []
   );
@@ -175,23 +175,23 @@ function Mosaic() {
    * @param {React.ChangeEvent<HTMLInputElement>} e - The change event.
    */
   const handleColChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setNumCols(+e.target.value);
-      localStorage.setItem("numCols", e.target.value);
+    () => {
+      // setNumCols(+e.target.value);
+      // localStorage.setItem("numCols", e.target.value);
     },
     []
   );
 
-  useEffect(() => {
-    const numRows = localStorage.getItem("numRows");
-    const numCols = localStorage.getItem("numCols");
-    if (numRows) {
-      setNumRows(+numRows);
-    }
-    if (numCols) {
-      setNumCols(+numCols);
-    }
-  }, []);
+  // useEffect(() => {
+    // const numRows = localStorage.getItem("numRows");
+    // const numCols = localStorage.getItem("numCols");
+    // if (numRows) {
+      // setNumRows(+numRows);
+    // }
+    // if (numCols) {
+      // setNumCols(+numCols);
+    // }
+  // }, []);
 
   /**
    * Handles changes in the cell width input.
