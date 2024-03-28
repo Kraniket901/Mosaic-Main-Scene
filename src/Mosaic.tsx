@@ -9,8 +9,8 @@ import Scroller from "./lib/Scroller";
  * Represents the main Mosaic component.
  * @component
  */
-const socket = io("https://mosaic-api.gokapturehub.com/", {
-  // const socket = io("https://mosaic-api.gokapturehub.com/", {
+const socket = io("http://localhost:3000/", {
+  // const socket = io("http://localhost:3000/", {
   transports: ["websocket", "polling", "flashsocket"],
 });
 function Mosaic() {
@@ -26,16 +26,16 @@ function Mosaic() {
   const [hide] = useState(true);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   /** Number of rows in the grid */
-  const [numRows, setNumRows] = useState<number>(10);
+  const [numRows, setNumRows] = useState<number>(19);
 
   /** Number of columns in the grid */
-  const [numCols, setNumCols] = useState<number>(18);
+  const [numCols, setNumCols] = useState<number>(34);
 
   /** Width of each grid cell (in pixels) */
-  const [cellWidth, setCellWidth] = useState<number>(108);
+  const [cellWidth, setCellWidth] = useState<number>(54);
 
   /** Height of each grid cell (in pixels) */
-  const [cellHeight, setCellHeight] = useState<number>(108);
+  const [cellHeight, setCellHeight] = useState<number>(54);
 
   // const [loadingImages, setLoadingImages] = useState<boolean>(false);
 
@@ -54,7 +54,7 @@ function Mosaic() {
 
   // check for new image if there is no image then slider else 
   useEffect(() => {
-    axios.get("https://mosaic-api.gokapturehub.com/cache-images").then((e) => {
+    axios.get("http://localhost:3000/cache-images").then((e) => {
       console.log(e.data)
       if (e.data.length !== lastLength) {
         setLastLength(e?.data.length)
@@ -81,7 +81,7 @@ function Mosaic() {
   // after 30s 
   useEffect(() => {
     const checkimage = async () => {
-      axios.get("https://mosaic-api.gokapturehub.com/cache-images").then((e) => {
+      axios.get("http://localhost:3000/cache-images").then((e) => {
         if (e.data.length !== lastLength) {
           setLastLength(e?.data.length)
         }
@@ -129,8 +129,8 @@ function Mosaic() {
 
   // const [setIsAddingImage] = useState<boolean>(false);
   // useEffect(() => {
-  //   axios.get("https://mosaic-api.gokapturehub.com/cache-images").then((e) => {
-  //     // axios.get("https://mosaic-api.gokapturehub.com/cache-images").then((e) => {
+  //   axios.get("http://localhost:3000/cache-images").then((e) => {
+  //     // axios.get("http://localhost:3000/cache-images").then((e) => {
   //     // setGridData()
   //     setLastLength(e?.data.length)
   //     const data = e.data.map((e: any) => {
