@@ -26,16 +26,16 @@ function Mosaic() {
   const [hide] = useState(true);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   /** Number of rows in the grid */
-  const [numRows] = useState<number>(19);
+  const [numRows] = useState<number>(22);
 
   /** Number of columns in the grid */
-  const [numCols] = useState<number>(34);
+  const [numCols] = useState<number>(27);
 
   /** Width of each grid cell (in pixels) */
-  const [cellWidth, setCellWidth] = useState<number>(54);
+  const [cellWidth, setCellWidth] = useState<number>(46);
 
   /** Height of each grid cell (in pixels) */
-  const [cellHeight, setCellHeight] = useState<number>(54);
+  const [cellHeight, setCellHeight] = useState<number>(45);
 
   // const [loadingImages, setLoadingImages] = useState<boolean>(false);
 
